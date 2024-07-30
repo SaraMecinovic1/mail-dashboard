@@ -2,43 +2,60 @@ import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
-import { useEffect, useState } from "react";
+import useState from "react";
 
 const CardInputs = () => {
-  const [arrayOfInfo, setArrayOfInfo] = useState([]);
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [formError, setFormError] = useState(null);
 
-  const [info, setInfo] = useState({
-    email: "",
-    code: "",
-  });
+  // const [arrayOfInfo, setArrayOfInfo] = useState([]);
+  // const [info, setInfo] = useState({
+  //   email: "",
+  //   code: "",
+  // });
 
-  const handleEmailChange = (event) => {
-    setInfo((prevInfo) => ({
-      ...prevInfo,
-      email: event.target.value,
-    }));
-  };
+  // useEffect(() => {
+  //   // Učitaj podatke iz localStorage kada se komponenta mountuje
+  //   const savedInfo = localStorage.getItem("arrayOfInfo");
+  //   if (savedInfo) {
+  //     setArrayOfInfo(JSON.parse(savedInfo)); //JSON.parse za konvertovanje stringa nazad u JavaScript objekat.
+  //   }
+  // }, []);
 
-  const handleCodeChange = (event) => {
-    setInfo((prevInfo) => ({
-      ...prevInfo,
-      code: event.target.value,
-    }));
-  };
+  // const handleEmailChange = (event) => {
+  //   setInfo((prevInfo) => ({
+  //     ...prevInfo,
+  //     email: event.target.value,
+  //   }));
+  // };
 
-  const handleSubmit = () => {
-    if (info.email.trim() && info.code.trim()) {
-      setArrayOfInfo((prevArray) => [...prevArray, info]);
-      setInfo({
-        email: "",
-        code: "",
-      });
-    }
-  };
+  // const handleCodeChange = (event) => {
+  //   setInfo((prevInfo) => ({
+  //     ...prevInfo,
+  //     code: event.target.value,
+  //   }));
+  // };
 
-  useEffect(() => {
-    console.log(arrayOfInfo); // Ovaj useEffect se pokreće svaki put kada se arrayOfInfo ažurira
-  }, [arrayOfInfo]);
+  // const handleSubmit = () => {
+  //   if (info.email.trim() && info.code.trim()) {
+  //     //trim() metoda uklanja sve prazne karaktere sa početka i kraja stringa.
+
+  //     const updatedArray = [...arrayOfInfo, info];
+  //     setArrayOfInfo(updatedArray);
+
+  //     localStorage.setItem("arrayOfInfo", JSON.stringify(updatedArray));
+
+  //     setInfo({
+  //       email: "",
+  //       code: "",
+  //     });
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   console.log(arrayOfInfo); // Ovaj useEffect se pokreće svaki put kada se arrayOfInfo ažurira
+  // }, [arrayOfInfo]);
 
   return (
     <div className="w-80 h-[280px] border rounded-md border-slate-400 flex items-center justify-center mt-8">
@@ -57,9 +74,10 @@ const CardInputs = () => {
               height: "45px",
               marginBottom: "20px",
             }}
-            value={info.email}
+            value={email}
+            id="email"
             type="email"
-            onChange={handleEmailChange}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </FormControl>
 
@@ -77,8 +95,10 @@ const CardInputs = () => {
               height: "45px",
               marginBottom: "10px",
             }}
-            value={info.code}
-            onChange={handleCodeChange}
+            value={code}
+            id="code"
+            type="text"
+            onChange={(e) => setCode(e.target.value)}
           />
         </FormControl>
 
@@ -92,10 +112,12 @@ const CardInputs = () => {
               backgroundColor: "#d5b886",
             },
           }}
-          onClick={handleSubmit}
+          onSubmit={handleSubmit}
         >
           Send
         </Button>
+
+        {formError && <p className="error">{formError}</p>}
       </div>
     </div>
   );
