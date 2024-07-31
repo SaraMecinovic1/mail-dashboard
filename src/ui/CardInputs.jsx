@@ -2,12 +2,22 @@ import FormControl from "@mui/joy/FormControl";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
-import useState from "react";
+import { useState } from "react";
 
 const CardInputs = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [formError, setFormError] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!email || !code) {
+      setFormError("Please enter valid information!");
+      return;
+    }
+    console.log(email, code);
+  };
 
   // const [arrayOfInfo, setArrayOfInfo] = useState([]);
   // const [info, setInfo] = useState({
@@ -58,7 +68,7 @@ const CardInputs = () => {
   // }, [arrayOfInfo]);
 
   return (
-    <div className="w-80 h-[280px] border rounded-md border-slate-400 flex items-center justify-center mt-8">
+    <div className="w-80  flex-col h-[285px] border rounded-md border-slate-400 flex items-center justify-center mt-8">
       <div className="flex flex-col items-center">
         <FormControl>
           <FormLabel
@@ -112,13 +122,16 @@ const CardInputs = () => {
               backgroundColor: "#d5b886",
             },
           }}
-          onSubmit={handleSubmit}
+          onClick={handleSubmit}
         >
           Send
         </Button>
-
-        {formError && <p className="error">{formError}</p>}
       </div>
+      {formError && (
+        <p className="error text-red-700 leading-3 text-left mt-4  ">
+          {formError}
+        </p>
+      )}
     </div>
   );
 };
