@@ -1,4 +1,5 @@
 import FormControl from "@mui/joy/FormControl";
+import CircularProgress from "@mui/joy/CircularProgress";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
@@ -9,6 +10,7 @@ const CardInputs = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [formError, setFormError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +30,8 @@ const CardInputs = () => {
       setFormError("Referral code must be a valid number!");
       return;
     }
+    setIsLoading(true);
+
     console.log("Submitting data:", { email, code: codeNumber });
 
     const { data, error } = await supabase
@@ -38,10 +42,11 @@ const CardInputs = () => {
       console.log(error, "-error from await");
       setFormError("Please enter valid information!");
     }
-
     if (data) {
       console.log("data to await- ", data);
     }
+
+    setIsLoading(false);
     setFormError(null);
     setEmail("");
     setCode("");
@@ -49,64 +54,72 @@ const CardInputs = () => {
 
   return (
     <div className="w-80  flex-col h-[285px] border rounded-md border-slate-400 flex items-center justify-center mt-8">
-      <div className="flex flex-col items-center">
-        <FormControl>
-          <FormLabel
+      {isLoading ? (
+        <CircularProgress color="neutral" variant="solid" />
+      ) : (
+        <div className="flex flex-col items-center">
+          <FormControl>
+            <FormLabel
+              sx={{
+                color: "#595656",
+              }}
+            >
+              Email:
+            </FormLabel>
+            <Input
+              sx={{
+                width: "270px",
+                height: "45px",
+                marginBottom: "20px",
+              }}
+             
+              value={email}
+              id="email"
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel
+              sx={{
+                color: "#595656",
+              }}
+            >
+              Referal code:{" "}
+              <span className="font-thin text-[12px] ">
+                must have 4 characters
+              </span>
+            </FormLabel>
+            <Input
+              sx={{
+                width: "270px",
+                height: "45px",
+                marginBottom: "10px",
+              }}
+              value={code}
+              id="code"
+              type="text"
+              onChange={(e) => setCode(e.target.value)}
+            />
+          </FormControl>
+
+          <Button
             sx={{
               color: "#595656",
+              width: "200px",
+              marginTop: "20px",
+              backgroundColor: "#e6d39a",
+              "&:hover": {
+                backgroundColor: "#d5b886",
+              },
             }}
+            onClick={handleSubmit}
           >
-            Email:
-          </FormLabel>
-          <Input
-            sx={{
-              width: "270px",
-              height: "45px",
-              marginBottom: "20px",
-            }}
-            value={email}
-            id="email"
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </FormControl>
-
-        <FormControl>
-          <FormLabel
-            sx={{
-              color: "#595656",
-            }}
-          >
-            Referal code:
-          </FormLabel>
-          <Input
-            sx={{
-              width: "270px",
-              height: "45px",
-              marginBottom: "10px",
-            }}
-            value={code}
-            id="code"
-            type="text"
-            onChange={(e) => setCode(e.target.value)}
-          />
-        </FormControl>
-
-        <Button
-          sx={{
-            color: "#595656",
-            width: "200px",
-            marginTop: "20px",
-            backgroundColor: "#e6d39a",
-            "&:hover": {
-              backgroundColor: "#d5b886",
-            },
-          }}
-          onClick={handleSubmit}
-        >
-          Send
-        </Button>
-      </div>
+            Send
+          </Button>
+        </div>
+      )}
       {formError && (
         <p className="error text-red-700 leading-3 text-left mt-4  ">
           {formError}
