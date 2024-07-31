@@ -7,7 +7,7 @@ import supabase from "../config/supabaseClient";
 
 const CardInputs = () => {
   const [email, setEmail] = useState("");
-  const [code, setCode] = useState(0);
+  const [code, setCode] = useState("");
   const [formError, setFormError] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -17,9 +17,22 @@ const CardInputs = () => {
       setFormError("Please enter valid information!");
       return;
     }
+
+    if (code.length !== 4) {
+      setFormError("Code must have exactly 4 characters!");
+      setCode("");
+      return;
+    }
+    const codeNumber = parseInt(code, 10);
+    if (isNaN(codeNumber)) {
+      setFormError("Referral code must be a valid number!");
+      return;
+    }
+    console.log("Submitting data:", { email, code: codeNumber });
+
     const { data, error } = await supabase
       .from("emails")
-      .insert([{ email, code }]);
+      .insert([{ email, code: codeNumber }]);
 
     if (error) {
       console.log(error, "-error from await");
@@ -28,61 +41,11 @@ const CardInputs = () => {
 
     if (data) {
       console.log("data to await- ", data);
-      setFormError(null);
     }
-    
-
+    setFormError(null);
     setEmail("");
     setCode("");
   };
-
-  // const [arrayOfInfo, setArrayOfInfo] = useState([]);
-  // const [info, setInfo] = useState({
-  //   email: "",
-  //   code: "",
-  // });
-
-  // useEffect(() => {
-  //   // Učitaj podatke iz localStorage kada se komponenta mountuje
-  //   const savedInfo = localStorage.getItem("arrayOfInfo");
-  //   if (savedInfo) {
-  //     setArrayOfInfo(JSON.parse(savedInfo)); //JSON.parse za konvertovanje stringa nazad u JavaScript objekat.
-  //   }
-  // }, []);
-
-  // const handleEmailChange = (event) => {
-  //   setInfo((prevInfo) => ({
-  //     ...prevInfo,
-  //     email: event.target.value,
-  //   }));
-  // };
-
-  // const handleCodeChange = (event) => {
-  //   setInfo((prevInfo) => ({
-  //     ...prevInfo,
-  //     code: event.target.value,
-  //   }));
-  // };
-
-  // const handleSubmit = () => {
-  //   if (info.email.trim() && info.code.trim()) {
-  //     //trim() metoda uklanja sve prazne karaktere sa početka i kraja stringa.
-
-  //     const updatedArray = [...arrayOfInfo, info];
-  //     setArrayOfInfo(updatedArray);
-
-  //     localStorage.setItem("arrayOfInfo", JSON.stringify(updatedArray));
-
-  //     setInfo({
-  //       email: "",
-  //       code: "",
-  //     });
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   console.log(arrayOfInfo); // Ovaj useEffect se pokreće svaki put kada se arrayOfInfo ažurira
-  // }, [arrayOfInfo]);
 
   return (
     <div className="w-80  flex-col h-[285px] border rounded-md border-slate-400 flex items-center justify-center mt-8">
