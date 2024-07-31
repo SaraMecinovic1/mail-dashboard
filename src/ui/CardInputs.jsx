@@ -7,7 +7,7 @@ import supabase from "../config/supabaseClient";
 
 const CardInputs = () => {
   const [email, setEmail] = useState("");
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(0);
   const [formError, setFormError] = useState(null);
 
   const handleSubmit = async (e) => {
@@ -30,6 +30,10 @@ const CardInputs = () => {
       console.log("data to await- ", data);
       setFormError(null);
     }
+    
+
+    setEmail("");
+    setCode("");
   };
 
   // const [arrayOfInfo, setArrayOfInfo] = useState([]);
