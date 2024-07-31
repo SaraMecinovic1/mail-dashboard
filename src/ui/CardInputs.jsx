@@ -3,6 +3,7 @@ import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import { useState } from "react";
+import supabase from "../config/supabaseClient";
 
 const CardInputs = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +17,19 @@ const CardInputs = () => {
       setFormError("Please enter valid information!");
       return;
     }
-    console.log(email, code);
+    const { data, error } = await supabase
+      .from("emails")
+      .insert([{ email, code }]);
+
+    if (error) {
+      console.log(error, "-error from await");
+      setFormError("Please enter valid information!");
+    }
+
+    if (data) {
+      console.log("data to await- ", data);
+      setFormError(null);
+    }
   };
 
   // const [arrayOfInfo, setArrayOfInfo] = useState([]);
