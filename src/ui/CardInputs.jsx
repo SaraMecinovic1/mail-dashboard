@@ -6,11 +6,18 @@ import Button from "@mui/joy/Button";
 import { useState } from "react";
 import supabase from "../config/supabaseClient";
 
+
 const CardInputs = () => {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [formError, setFormError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const isValidEmail = (email) => {
+    // Regularni izraz za osnovnu validaciju email adrese
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,16 +34,22 @@ const CardInputs = () => {
     }
     const codeNumber = parseInt(code, 10);
     if (isNaN(codeNumber)) {
-      setFormError("Referral code must be a valid number!");
+      setFormError("Referral code must be a valid 4 digit number!");
       return;
     }
+
+    if (!isValidEmail(email)) {
+      setFormError("Invalid email format");
+      return;
+    }
+
     setIsLoading(true);
 
     console.log("Submitting data:", { email, code: codeNumber });
 
     const { data, error } = await supabase
       .from("emails")
-      .insert([{ email, code: codeNumber }]);
+      .insert([{ email, code: codeNumber }]); //insert-slanje podataka
 
     if (error) {
       console.log(error, "-error from await");
@@ -72,7 +85,6 @@ const CardInputs = () => {
                 height: "45px",
                 marginBottom: "20px",
               }}
-             
               value={email}
               id="email"
               type="email"
