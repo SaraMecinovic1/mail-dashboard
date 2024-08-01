@@ -4,8 +4,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import supabase from "../config/supabaseClient";
+import CircularProgress from "@mui/joy/CircularProgress";
 
 const DataPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [emails, setEmails] = useState(null);
   const [fetchError, setFetchError] = useState(null);
 
@@ -39,7 +41,14 @@ const DataPage = () => {
       )}
       <div className="overflow-x-auto">
         <Table aria-label="table variants" sx={{ borderCollapse: "collapse" }}>
-          <thead>
+          <thead
+            style={{
+              position: "sticky",
+              top: 0,
+              backgroundColor: "#fff",
+              zIndex: 10,
+            }}
+          >
             <tr
               style={{
                 height: "50px",
@@ -88,6 +97,8 @@ const DataPage = () => {
             </tr>
           </thead>
           <tbody>
+            {isLoading?(<CircularProgress color="neutral" variant="solid" /> ):(
+              
             {emails && emails.length > 0 ? (
               emails.map((item, index) => (
                 <tr key={index}>
@@ -107,6 +118,7 @@ const DataPage = () => {
                   No data available
                 </td>
               </tr>
+            )}
             )}
           </tbody>
         </Table>
