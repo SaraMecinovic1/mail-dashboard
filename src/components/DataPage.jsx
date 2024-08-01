@@ -17,11 +17,15 @@ const DataPage = () => {
         setFetchError("Could not fetch the emails!");
         setEmails(null);
         console.log("fetch error-", error);
-      } else {
+      }
+
+      if (data) {
         setEmails(data);
         setFetchError(null);
-        console.log("data-", data);
+
+        console.log("datas:", data);
       }
+      console.log("fetch datas: ", data.email, data.code);
     };
     fetchEmails();
   }, []);
@@ -29,6 +33,7 @@ const DataPage = () => {
   return (
     <div className="container mx-auto flex flex-col h-[100vh] space-y-6">
       <DataTitle />
+
       {fetchError && (
         <p style={{ color: "red", textAlign: "center" }}>{fetchError}</p>
       )}
@@ -44,7 +49,7 @@ const DataPage = () => {
             >
               <th
                 style={{
-                  minWidth: "200px",
+                  minWidth: "230px",
                   fontSize: "18px",
                   color: "#595656",
                   paddingLeft: "20px",
@@ -54,7 +59,7 @@ const DataPage = () => {
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: "80px",
                   fontSize: "18px",
                   color: "#595656",
                 }}
@@ -63,7 +68,7 @@ const DataPage = () => {
               </th>
               <th
                 style={{
-                  minWidth: "100px",
+                  minWidth: "70px",
                   fontSize: "18px",
                   color: "#595656",
                 }}
@@ -84,12 +89,12 @@ const DataPage = () => {
           </thead>
           <tbody>
             {emails && emails.length > 0 ? (
-              emails.map((email, index) => (
-                <tr key={index} style={{ borderBottom: "2px solid #e6d38a" }}>
-                  <td style={{ paddingLeft: "20px" }}>{email.email}</td>
-                  <td>{email.code}</td>
-                  <td>{email.id}</td>
-                  <td>{email.created_at}</td>
+              emails.map((item, index) => (
+                <tr key={index}>
+                  <td style={{ paddingLeft: "20px" }}>{item.email}</td>
+                  <td>{item.code}</td>
+                  <td>{item.id}</td>
+                  <td>{item.created_at}</td>
                   <td style={{ paddingLeft: "15px" }}>
                     <EditIcon sx={{ paddingRight: "10px", fontSize: "33px" }} />
                     <DeleteIcon />
