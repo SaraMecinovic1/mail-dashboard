@@ -12,6 +12,7 @@ const LoginButton = () => {
         color: "#595656",
         fontSize: "17px",
         alignItems: "center",
+        marginBottom: "20px",
         paddingRight: "25px",
         backgroundColor: "#e6d38a",
         "&:hover": {
