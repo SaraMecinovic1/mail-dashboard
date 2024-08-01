@@ -7,13 +7,19 @@ const DataPage = () => {
   return (
     <div className="container mx-auto flex flex-col h-[100vh] space-y-6">
       <DataTitle />
-      <div>
+      <div className="overflow-x-auto">
         <Table aria-label="table variants" sx={{ borderCollapse: "collapse" }}>
           <thead>
-            <tr>
+            <tr
+              style={{
+                height: "50px",
+                verticalAlign: "middle",
+                paddingBottom: "10px",
+              }}
+            >
               <th
                 style={{
-                  width: "35%",
+                  minWidth: "200px", 
                   fontSize: "18px",
                   color: "#595656",
                   paddingLeft: "20px",
@@ -21,16 +27,16 @@ const DataPage = () => {
               >
                 Email:
               </th>
-              <th style={{ width: "15%", fontSize: "18px", color: "#595656" }}>
+              <th style={{ minWidth: "100px", fontSize: "18px", color: "#595656" }}>
                 Code:
               </th>
-              <th style={{ width: "10%", fontSize: "18px", color: "#595656" }}>
+              <th style={{ minWidth: "100px", fontSize: "18px", color: "#595656" }}>
                 Id:
               </th>
-              <th style={{ width: "25%", fontSize: "18px", color: "#595656" }}>
+              <th style={{ minWidth: "150px", fontSize: "18px", color: "#595656" }}>
                 Sent:
               </th>
-              <th>*Edit data:</th>
+              <th style={{ minWidth: "150px" }}>*Edit data:</th>
             </tr>
           </thead>
           <tbody>
@@ -40,8 +46,8 @@ const DataPage = () => {
               <td>56</td>
               <td>12 12 2006</td>
               <td style={{ paddingLeft: "15px" }}>
-                {" "}
-                <EditIcon /> <DeleteIcon />
+                <EditIcon sx={{ paddingRight: "10px", fontSize: "33px" }} />
+                <DeleteIcon />
               </td>
             </tr>
             <tr style={{ borderBottom: "2px solid #e6d38a" }}>
@@ -49,18 +55,10 @@ const DataPage = () => {
               <td>1234</td>
               <td>56</td>
               <td>12 12 2006</td>
-            </tr>
-            <tr style={{ borderBottom: "2px solid #e6d38a" }}>
-              <td style={{ paddingLeft: "20px" }}>saramecinovic</td>
-              <td>1234</td>
-              <td>56</td>
-              <td>12 12 2006</td>
-            </tr>
-            <tr style={{ borderBottom: "2px solid #e6d38a" }}>
-              <td style={{ paddingLeft: "20px" }}>saramecinovic</td>
-              <td>1234</td>
-              <td>56</td>
-              <td>12 12 2006</td>
+              <td style={{ paddingLeft: "15px" }}>
+                <EditIcon sx={{ paddingRight: "10px", fontSize: "33px" }} />
+                <DeleteIcon />
+              </td>
             </tr>
           </tbody>
         </Table>
