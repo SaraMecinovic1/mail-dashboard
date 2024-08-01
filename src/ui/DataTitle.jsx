@@ -16,19 +16,22 @@ const DataTitle = () => {
             color: "white",
             fontSize: "17px",
             alignItems: "center",
-            
+
             "&:hover": {
               backgroundColor: "#d6bd69",
             },
           }}
           variant="plain"
         >
-          <LoginIcon fontSize="small" sx={{marginRight:"5px"}} />
+          <LoginIcon fontSize="small" sx={{ marginRight: "5px" }} />
           Login
         </Button>
       </div>
       <div className="flex-grow flex justify-center">
-        <h1 className="font-sans text-3xl font-semibold text-center text-[white] tracking-widest flex items-center">
+        <h1
+          onClick={() => navigate("/")}
+          className="font-sans text-3xl font-semibold text-center text-[white] tracking-widest flex items-center"
+        >
           <RecentActorsIcon
             sx={{
               paddingRight: "10px",

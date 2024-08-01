@@ -85,15 +85,7 @@ const DataPage = () => {
               >
                 Id:
               </th>
-              <th
-                style={{
-                  minWidth: "150px",
-                  fontSize: "18px",
-                  color: "#595656",
-                }}
-              >
-                Sent:
-              </th>
+
               <th style={{ minWidth: "150px" }}>*Edit data:</th>
             </tr>
           </thead>
@@ -114,7 +106,6 @@ const DataPage = () => {
                   <td style={{ paddingLeft: "20px" }}>{item.email}</td>
                   <td>{item.code}</td>
                   <td>{item.id}</td>
-                  <td>{item.created_at}</td>
                   <td style={{ paddingLeft: "15px" }}>
                     <EditIcon sx={{ paddingRight: "10px", fontSize: "33px" }} />
                     <DeleteIcon />
