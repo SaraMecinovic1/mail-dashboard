@@ -1,5 +1,7 @@
 import DataTitle from "../ui/DataTitle";
 import Table from "@mui/joy/Table";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const DataPage = () => {
   return (
@@ -37,6 +39,10 @@ const DataPage = () => {
               <td>1234</td>
               <td>56</td>
               <td>12 12 2006</td>
+              <td style={{ paddingLeft: "15px" }}>
+                {" "}
+                <EditIcon /> <DeleteIcon />
+              </td>
             </tr>
             <tr style={{ borderBottom: "2px solid #e6d38a" }}>
               <td style={{ paddingLeft: "20px" }}>saramecinovic</td>
