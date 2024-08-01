@@ -2,6 +2,7 @@ import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import Button from "@mui/joy/Button";
 import { useNavigate } from "react-router-dom";
 import LoginIcon from "@mui/icons-material/Login";
+import "../App.css";
 
 const DataTitle = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const DataTitle = () => {
     <div className="w-[100%] h-[80px] bg-[#e6d38a] flex items-center justify-between">
       <div className="w-[80px] h-[100%] flex items-center justify-start">
         <Button
+          className="loginButtTitle"
           onClick={() => navigate("/login")}
           sx={{
             width: "160px",

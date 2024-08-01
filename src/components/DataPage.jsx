@@ -5,6 +5,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
 import supabase from "../config/supabaseClient";
 import CircularProgress from "@mui/joy/CircularProgress";
+import "../App.css";
+
 
 const DataPage = () => {
   const [isLoading, setIsLoading] = useState(true); // Postavi početno stanje na true
@@ -40,7 +42,7 @@ const DataPage = () => {
         <p style={{ color: "red", textAlign: "center" }}>{fetchError}</p>
       )}
 
-      <div className="overflow-x-auto">
+      <div className="scrollable-table-container">
         <Table aria-label="table variants" sx={{ borderCollapse: "collapse" }}>
           <thead
             style={{
@@ -58,8 +60,9 @@ const DataPage = () => {
               }}
             >
               <th
+                className="email-column"
                 style={{
-                  minWidth: "230px",
+                  width: "300px",
                   fontSize: "18px",
                   color: "#595656",
                   paddingLeft: "20px",
