@@ -1,15 +1,14 @@
 import DataTitle from "../ui/DataTitle";
 import Table from "@mui/joy/Table";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useEffect, useState } from "react";
 import supabase from "../config/supabaseClient";
 import CircularProgress from "@mui/joy/CircularProgress";
 import "../App.css";
 
-
 const DataPage = () => {
-  const [isLoading, setIsLoading] = useState(true); // Postavi početno stanje na true
+  const [isLoading, setIsLoading] = useState(true);
   const [emails, setEmails] = useState(null);
   const [fetchError, setFetchError] = useState(null);
 
@@ -33,6 +32,21 @@ const DataPage = () => {
 
     fetchEmails();
   }, []);
+
+  const handleDelete = async (id) => {
+    const { data, error } = await supabase
+      .from("emails")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      console.log("error from delete function:", error);
+    } else {
+      console.log("delete data:", data);
+      // Osveži listu emailova nakon brisanja
+      setEmails(emails.filter(email => email.id !== id));
+    }
+  };
 
   return (
     <div className="container mx-auto flex flex-col h-[100vh] space-y-6">
@@ -107,11 +121,20 @@ const DataPage = () => {
               emails.map((item, index) => (
                 <tr key={index}>
                   <td style={{ paddingLeft: "20px" }}>{item.email}</td>
-                  <td>{item.code}</td>
+                  <td style={{ paddingLeft: "12px" }}>{item.code}</td>
                   <td>{item.id}</td>
                   <td style={{ paddingLeft: "15px" }}>
-                    <EditIcon sx={{ paddingRight: "10px", fontSize: "33px" }} />
-                    <DeleteIcon />
+                    <EditOutlinedIcon
+                      sx={{
+                        paddingRight: "10px",
+                        fontSize: "40px",
+                        color: "#e6d38a",
+                      }}
+                    />
+                    <DeleteForeverOutlinedIcon
+                      onClick={() => handleDelete(item.id)}
+                      sx={{ color: "#e6d38a", fontSize: "33px", cursor: 'pointer' }}
+                    />
                   </td>
                 </tr>
               ))
