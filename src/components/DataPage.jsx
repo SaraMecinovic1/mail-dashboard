@@ -7,28 +7,28 @@ import supabase from "../config/supabaseClient";
 import CircularProgress from "@mui/joy/CircularProgress";
 
 const DataPage = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Postavi početno stanje na true
   const [emails, setEmails] = useState(null);
   const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
     const fetchEmails = async () => {
+      setIsLoading(true); // Počni učitavanje
+
       const { data, error } = await supabase.from("emails").select();
 
       if (error) {
         setFetchError("Could not fetch the emails!");
         setEmails(null);
         console.log("fetch error-", error);
-      }
-
-      if (data) {
+      } else {
         setEmails(data);
         setFetchError(null);
-
-        console.log("datas:", data);
       }
-      console.log("fetch datas: ", data.email, data.code);
+
+      setIsLoading(false); // Završavaj učitavanje
     };
+
     fetchEmails();
   }, []);
 
@@ -39,6 +39,7 @@ const DataPage = () => {
       {fetchError && (
         <p style={{ color: "red", textAlign: "center" }}>{fetchError}</p>
       )}
+
       <div className="overflow-x-auto">
         <Table aria-label="table variants" sx={{ borderCollapse: "collapse" }}>
           <thead
@@ -97,9 +98,17 @@ const DataPage = () => {
             </tr>
           </thead>
           <tbody>
-            {isLoading?(<CircularProgress color="neutral" variant="solid" /> ):(
-              
-            {emails && emails.length > 0 ? (
+            {isLoading ? (
+              <tr>
+                <td colSpan="5" style={{ textAlign: "center" }}>
+                  <CircularProgress
+                    color="neutral"
+                    variant="solid"
+                    sx={{ textAlign: "center" }}
+                  />
+                </td>
+              </tr>
+            ) : emails && emails.length > 0 ? (
               emails.map((item, index) => (
                 <tr key={index}>
                   <td style={{ paddingLeft: "20px" }}>{item.email}</td>
@@ -118,7 +127,6 @@ const DataPage = () => {
                   No data available
                 </td>
               </tr>
-            )}
             )}
           </tbody>
         </Table>
