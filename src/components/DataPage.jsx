@@ -13,6 +13,7 @@ const DataPage = () => {
   const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
+    // Function for pull datas:
     const fetchEmails = async () => {
       setIsLoading(true); // Počni učitavanje
 
@@ -34,17 +35,16 @@ const DataPage = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    const { data, error } = await supabase
-      .from("emails")
-      .delete()
-      .eq("id", id);
+    console.log("Deleting email with id:", id); // Dodati log za ID
+
+    const { data, error } = await supabase.from("emails").delete().eq("id", id);
 
     if (error) {
       console.log("error from delete function:", error);
     } else {
       console.log("delete data:", data);
       // Osveži listu emailova nakon brisanja
-      setEmails(emails.filter(email => email.id !== id));
+      setEmails(emails.filter((email) => email.id !== id)); // Ako email.id nije jednak id(koji je kliknut), funkcija vraća true i taj email ostaje u novom nizu.
     }
   };
 
@@ -118,8 +118,8 @@ const DataPage = () => {
                 </td>
               </tr>
             ) : emails && emails.length > 0 ? (
-              emails.map((item, index) => (
-                <tr key={index}>
+              emails.map((item) => (
+                <tr key={item.id}>
                   <td style={{ paddingLeft: "20px" }}>{item.email}</td>
                   <td style={{ paddingLeft: "12px" }}>{item.code}</td>
                   <td>{item.id}</td>
@@ -133,7 +133,11 @@ const DataPage = () => {
                     />
                     <DeleteForeverOutlinedIcon
                       onClick={() => handleDelete(item.id)}
-                      sx={{ color: "#e6d38a", fontSize: "33px", cursor: 'pointer' }}
+                      sx={{
+                        color: "#e6d38a",
+                        fontSize: "33px",
+                        cursor: "pointer",
+                      }}
                     />
                   </td>
                 </tr>

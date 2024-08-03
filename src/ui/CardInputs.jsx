@@ -73,7 +73,7 @@ const CardInputs = () => {
       console.log(error, "-error from await");
       toast.error("Error submitting data!");
     } else {
-      toast.success(`Thanks for having you!💌 ${email}`);
+      toast.success(`Thanks for having you, ${email} 💌 `);
     }
 
     setIsLoading(false);
