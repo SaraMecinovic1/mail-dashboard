@@ -41,8 +41,8 @@ const LoginPage = () => {
       if (error) {
         // Prikazivanje obaveštenja o grešci i čišćenje polja
         toast.error("Neispravan email ili lozinka.");
-        setEmail(""); // Čišćenje email polja
-        setPassword(""); // Čišćenje lozinka polja
+        setEmail("");
+        setPassword("");
       } else {
         toast.success(`Dobrodošli nazad, ${email} 💌`);
         navigate("/data");
@@ -71,19 +71,19 @@ const LoginPage = () => {
                 width: "260px",
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "#b0b0b0", // Siva boja ivice
+                    borderColor: "#b0b0b0",
                   },
                   "&:hover fieldset": {
-                    borderColor: "#a0a0a0", // Tamnija siva pri pregledu
+                    borderColor: "#a0a0a0",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#a0a0a0", // Tamnija siva kada je fokusirano
+                    borderColor: "#a0a0a0",
                   },
                 },
                 "& .MuiInputLabel-root": {
-                  color: "#b0b0b0", // Podrazumevana boja oznake
+                  color: "#b0b0b0",
                   "&.Mui-focused": {
-                    color: "#e6d38a", // Žuta boja kada je fokusirano
+                    color: "#e6d38a",
                   },
                 },
               }}
@@ -95,9 +95,9 @@ const LoginPage = () => {
               <InputLabel
                 htmlFor="outlined-adornment-password"
                 sx={{
-                  color: "#b0b0b0", // Podrazumevana boja oznake
+                  color: "#b0b0b0",
                   "&.Mui-focused": {
-                    color: "#e6d38a", // Žuta boja kada je fokusirano
+                    color: "#e6d38a",
                   },
                 }}
               >
@@ -111,13 +111,13 @@ const LoginPage = () => {
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
-                      borderColor: "#b0b0b0", // Siva boja ivice
+                      borderColor: "#b0b0b0",
                     },
                     "&:hover fieldset": {
-                      borderColor: "#a0a0a0", // Tamnija siva pri pregledu
+                      borderColor: "#a0a0a0",
                     },
                     "&.Mui-focused fieldset": {
-                      borderColor: "#a0a0a0", // Tamnija siva kada je fokusirano
+                      borderColor: "#a0a0a0",
                     },
                   },
                 }}
@@ -154,7 +154,7 @@ const LoginPage = () => {
               variant="contained"
             >
               <LoginIcon sx={{ marginRight: "5px" }} fontSize="small" />
-              Prijava
+              Login
             </Button>
           </>
         )}

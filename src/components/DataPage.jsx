@@ -48,7 +48,7 @@ const DataPage = () => {
       console.log("delete data:", data);
       // Osveži listu emailova nakon brisanja
       setEmails(emails.filter((email) => email.id !== id));
-      toast.success(`You have successfully deleted the data 😊🗑️`);
+      toast.success(`You have successfully deleted the data 🗑️`);
     }
   };
 
