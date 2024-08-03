@@ -16,6 +16,7 @@ const DataPage = () => {
   const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
+    toast.success(`Welcome back,Sara 💌`);
     const fetchEmails = async () => {
       setIsLoading(true); // Počni učitavanje
 
