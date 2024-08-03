@@ -1,33 +1,22 @@
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
-import Button from "@mui/joy/Button";
 import { useNavigate } from "react-router-dom";
-import LoginIcon from "@mui/icons-material/Login";
+import HomeIcon from "@mui/icons-material/Home";
 import "../App.css";
 
 const DataTitle = () => {
   const navigate = useNavigate();
   return (
     <div className="w-[100%] h-[80px] bg-[#e6d38a] flex items-center justify-between">
-      <div className="w-[80px] h-[100%] flex items-center justify-start">
-        <Button
-          className="loginButtTitle"
-          onClick={() => navigate("/login")}
+      <div className="w-[50px] h-[100%] flex items-center justify-center">
+        <HomeIcon
+          onClick={() => navigate("/")}
+          fontSize="large" // Veličina ikone
           sx={{
-            width: "160px",
-            height: "50px",
-            color: "white",
-            fontSize: "17px",
-            alignItems: "center",
-
-            "&:hover": {
-              backgroundColor: "#d6bd69",
-            },
+            color: "#fff", // Boja ikone
+            marginLeft: "20px", // Razmak između ikone i sledećeg elementa (ako postoji)
+            fontSize: "30px", // Velika veličina ikone
           }}
-          variant="plain"
-        >
-          <LoginIcon fontSize="small" sx={{ marginRight: "5px" }} />
-          Login
-        </Button>
+        />
       </div>
       <div className="flex-grow flex justify-center">
         <h1
