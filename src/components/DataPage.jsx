@@ -1,11 +1,14 @@
 import DataTitle from "../ui/DataTitle";
 import Table from "@mui/joy/Table";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+// import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useEffect, useState } from "react";
 import supabase from "../config/supabaseClient";
 import CircularProgress from "@mui/joy/CircularProgress";
 import "../App.css";
+import { format } from "date-fns";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DataPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,7 +16,6 @@ const DataPage = () => {
   const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
-    // Function for pull datas:
     const fetchEmails = async () => {
       setIsLoading(true); // Počni učitavanje
 
@@ -35,7 +37,7 @@ const DataPage = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    console.log("Deleting email with id:", id); // Dodati log za ID
+    console.log("Deleting email with id:", id);
 
     const { data, error } = await supabase.from("emails").delete().eq("id", id);
 
@@ -44,13 +46,20 @@ const DataPage = () => {
     } else {
       console.log("delete data:", data);
       // Osveži listu emailova nakon brisanja
-      setEmails(emails.filter((email) => email.id !== id)); // Ako email.id nije jednak id(koji je kliknut), funkcija vraća true i taj email ostaje u novom nizu.
+      setEmails(emails.filter((email) => email.id !== id));
+      toast.success(`You have successfully deleted the data 😊🗑️`);
     }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return format(date, "dd-MM-yyyy HH:mm");
   };
 
   return (
     <div className="container mx-auto flex flex-col h-[100vh] space-y-6">
       <DataTitle />
+      <ToastContainer />
 
       {fetchError && (
         <p style={{ color: "red", textAlign: "center" }}>{fetchError}</p>
@@ -76,7 +85,7 @@ const DataPage = () => {
               <th
                 className="email-column"
                 style={{
-                  width: "300px",
+                  // width: "330px",
                   fontSize: "18px",
                   color: "#595656",
                   paddingLeft: "20px",
@@ -86,7 +95,6 @@ const DataPage = () => {
               </th>
               <th
                 style={{
-                  minWidth: "80px",
                   fontSize: "18px",
                   color: "#595656",
                 }}
@@ -95,15 +103,14 @@ const DataPage = () => {
               </th>
               <th
                 style={{
-                  minWidth: "70px",
                   fontSize: "18px",
                   color: "#595656",
                 }}
               >
-                Id:
+                Created At:
               </th>
 
-              <th style={{ minWidth: "150px" }}>*Edit data:</th>
+              <th>*Edit data:</th>
             </tr>
           </thead>
           <tbody>
@@ -122,21 +129,22 @@ const DataPage = () => {
                 <tr key={item.id}>
                   <td style={{ paddingLeft: "20px" }}>{item.email}</td>
                   <td style={{ paddingLeft: "12px" }}>{item.code}</td>
-                  <td>{item.id}</td>
+                  <td>{formatDate(item.created_at)}</td>
                   <td style={{ paddingLeft: "15px" }}>
-                    <EditOutlinedIcon
+                    {/* <EditOutlinedIcon
                       sx={{
                         paddingRight: "10px",
                         fontSize: "40px",
                         color: "#e6d38a",
                       }}
-                    />
+                    /> */}
                     <DeleteForeverOutlinedIcon
                       onClick={() => handleDelete(item.id)}
                       sx={{
                         color: "#e6d38a",
-                        fontSize: "33px",
+                        fontSize: "40px",
                         cursor: "pointer",
+                        paddingLeft: "10px",
                       }}
                     />
                   </td>
