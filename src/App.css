@@ -45,11 +45,20 @@
   }
 }
 
-
-
 @media (max-width: 498px) {
   .loginButtTitle {
     width: 100px;
     font-size: 5px;
+  }
+}
+
+.titleHomePage {
+  font-size: 32px; /* Osnovna veličina za veće ekrane */
+  color: rgb(89, 86, 86);
+}
+
+@media (max-width: 419px) {
+  .titleHomePage {
+    font-size: 25px; /* Ili bilo koja druga željena veličina */
   }
 }

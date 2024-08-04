@@ -142,9 +142,10 @@ export const LoginForm = () => {
               alignItems: "center",
               marginTop: "20px",
               paddingRight: "25px",
-              backgroundColor: "#e6d38a",
+              backgroundColor: "#a360fc",
               "&:hover": {
-                backgroundColor: "#d5b886",
+                backgroundColor: "#9045f5",
+                color: "#4a4848",
               },
             }}
             variant="contained"

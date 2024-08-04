@@ -138,9 +138,10 @@ const CardInputs = () => {
               color: "#595656",
               width: "200px",
               marginTop: "20px",
-              backgroundColor: "#e6d39a",
+              backgroundColor: "#a360fc",
               "&:hover": {
-                backgroundColor: "#d5b886",
+                backgroundColor: "#9045f5",
+                color: "#4a4848",
               },
             }}
             onClick={handleSubmit}
