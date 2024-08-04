@@ -135,13 +135,13 @@ const CardInputs = () => {
 
           <Button
             sx={{
-              color: "#595656",
+              color: "white",
               width: "200px",
               marginTop: "20px",
               backgroundColor: "#a360fc",
               "&:hover": {
                 backgroundColor: "#9045f5",
-                color: "#4a4848",
+                color: "white",
               },
             }}
             onClick={handleSubmit}

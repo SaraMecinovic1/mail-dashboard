@@ -142,7 +142,7 @@ const DataPage = () => {
                     <DeleteForeverOutlinedIcon
                       onClick={() => handleDelete(item.id)}
                       sx={{
-                        color: "#e6d38a",
+                        color: "#a360fc",
                         fontSize: "40px",
                         cursor: "pointer",
                         paddingLeft: "10px",

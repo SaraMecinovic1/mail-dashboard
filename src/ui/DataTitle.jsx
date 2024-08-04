@@ -6,7 +6,7 @@ import "../App.css";
 const DataTitle = () => {
   const navigate = useNavigate();
   return (
-    <div className="w-[100%] h-[80px] bg-[#e6d38a] flex items-center justify-between">
+    <div className="w-[100%] h-[80px] bg-[#a360fc] flex items-center justify-between">
       <div className="w-[50px] h-[100%] flex items-center justify-center">
         <HomeIcon
           onClick={() => navigate("/")}

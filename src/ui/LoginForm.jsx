@@ -31,6 +31,13 @@ export const LoginForm = () => {
 
   const handleLogin = async () => {
     setIsLoading(true);
+    if ((email === "" && password === "") || email === "" || password === "") {
+      toast.error("Fill in all the fields");
+      setEmail("");
+      setPassword("");
+      setIsLoading(false);
+      return;
+    }
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -52,6 +59,7 @@ export const LoginForm = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="w-80 flex flex-col items-center justify-center h-[285px] border rounded-md border-slate-400 mt-8">
       <ToastContainer />
@@ -68,17 +76,13 @@ export const LoginForm = () => {
                 "& fieldset": {
                   borderColor: "#b0b0b0",
                 },
-                "&:hover fieldset": {
-                  borderColor: "#a0a0a0",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "#a0a0a0",
-                },
+            
+               
               },
               "& .MuiInputLabel-root": {
                 color: "#b0b0b0",
                 "&.Mui-focused": {
-                  color: "#e6d38a",
+                  color: "#a360fc", // Promena boje fokusa
                 },
               },
             }}
@@ -93,11 +97,11 @@ export const LoginForm = () => {
               sx={{
                 color: "#b0b0b0",
                 "&.Mui-focused": {
-                  color: "#e6d38a",
+                  color: "#a360fc", // Promena boje fokusa
                 },
               }}
             >
-              Lozinka
+              Password
             </InputLabel>
             <OutlinedInput
               value={password}
@@ -129,7 +133,7 @@ export const LoginForm = () => {
                   </IconButton>
                 </InputAdornment>
               }
-              label="Lozinka"
+              label="Password"
             />
           </FormControl>
           <Button
@@ -137,7 +141,7 @@ export const LoginForm = () => {
             sx={{
               width: "160px",
               height: "45px",
-              color: "#595656",
+              color: "white",
               fontSize: "14px",
               alignItems: "center",
               marginTop: "20px",
@@ -145,7 +149,7 @@ export const LoginForm = () => {
               backgroundColor: "#a360fc",
               "&:hover": {
                 backgroundColor: "#9045f5",
-                color: "#4a4848",
+                color: "white",
               },
             }}
             variant="contained"

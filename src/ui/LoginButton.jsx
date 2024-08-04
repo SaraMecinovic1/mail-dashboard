@@ -9,7 +9,7 @@ const LoginButton = () => {
       sx={{
         width: "160px",
         height: "50px",
-        color: "#595656",
+        color: "white",
         fontSize: "17px",
         alignItems: "center",
         marginBottom: "20px",
@@ -17,7 +17,7 @@ const LoginButton = () => {
         backgroundColor: "#a360fc",
         "&:hover": {
           backgroundColor: "#9045f5",
-          color: "#4a4848",
+          color: "white",
         },
       }}
       variant="soft"
