@@ -23,7 +23,6 @@ export const LoginForm = () => {
 
   const navigate = useNavigate();
 
-  // Funkcije za prikaz lozinke:
   const handleClickShowPassword = () => setShowPassword((prev) => !prev);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -50,7 +49,7 @@ export const LoginForm = () => {
         setPassword("");
       } else {
         toast.success(`Welcome back, ${email} 💌`);
-        navigate("/data");
+        navigate("/data"); // Redirektuj na stranicu sa podacima nakon uspešne prijave
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -76,8 +75,6 @@ export const LoginForm = () => {
                 "& fieldset": {
                   borderColor: "#b0b0b0",
                 },
-            
-               
               },
               "& .MuiInputLabel-root": {
                 color: "#b0b0b0",

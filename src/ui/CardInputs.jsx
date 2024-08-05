@@ -18,6 +18,11 @@ const CardInputs = () => {
     return emailPattern.test(email);
   };
 
+  const isValidCode = (code) => {
+    const codePattern = /^\d{4}$/;
+    return codePattern.test(code);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -26,13 +31,8 @@ const CardInputs = () => {
       return;
     }
 
-    if (code.length !== 4) {
+    if (!isValidCode(code)) {
       setCode("");
-      toast.error("Code must have exactly 4 characters!");
-      return;
-    }
-    const codeNumber = parseInt(code, 10);
-    if (isNaN(codeNumber)) {
       toast.error("Referral code must be a valid 4 digit number!");
       return;
     }
@@ -67,7 +67,7 @@ const CardInputs = () => {
     // Ako email ne postoji, nastavi sa slanjem podataka:
     const { error } = await supabase
       .from("emails")
-      .insert([{ email, code: codeNumber }]);
+      .insert([{ email, code: parseInt(code, 10) }]);
 
     if (error) {
       console.log(error, "-error from await");
@@ -117,7 +117,7 @@ const CardInputs = () => {
             >
               Referal code:{" "}
               <span className="font-thin text-[12px] ">
-                must have 4 characters
+                must have 4 digits
               </span>
             </FormLabel>
             <Input
