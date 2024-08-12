@@ -9,20 +9,22 @@ import "./index.css";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const checkSession = async () => {
-      const session = await supabase.auth.getSession();
-      if (session?.data?.session) {
-        const currentTime = Math.floor(Date.now() / 1000); // Trenutno vreme u sekundama
-        const expirationTime = session.data.session.expires_at;
+  // Pomoćna funkcija za proveru isteka sesije
+  const isSessionValid = (session) => {
+    const currentTime = Math.floor(Date.now() / 1000); // Trenutno vreme u sekundama
+    const expirationTime = session?.expires_at; // Vremenski pečat kada sesija ističe
 
-        if (expirationTime && currentTime < expirationTime + 3600) {
-          setIsAuthenticated(true);
-          console.log("Session active for another hour");
-        } else {
-          setIsAuthenticated(false);
-          console.log("Session expired");
-        }
+    return expirationTime && currentTime < expirationTime + 3600; // Ovo predstavlja vreme kada sesija treba da istekne ili bude nevažeća.
+  };
+
+  useEffect(() => {
+    console.log(isAuthenticated);
+    const checkSession = async () => {
+      const { data: sessionData } = await supabase.auth.getSession(); // Dobij trenutnu sesiju
+      if (sessionData?.session) {
+        setIsAuthenticated(isSessionValid(sessionData.session));
+
+        console.log(isAuthenticated);
       } else {
         setIsAuthenticated(false);
       }
@@ -32,25 +34,13 @@ function App() {
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        if (session) {
-          const currentTime = Math.floor(Date.now() / 1000);
-          const expirationTime = session.expires_at;
-
-          if (expirationTime && currentTime < expirationTime + 3600) {
-            setIsAuthenticated(true);
-            console.log("Session active for another hour");
-          } else {
-            setIsAuthenticated(false);
-            console.log("Session expired");
-          }
-        } else {
-          setIsAuthenticated(false);
-        }
+        setIsAuthenticated(isSessionValid(session));
       }
     );
 
     return () => {
       authListener.subscription.unsubscribe();
+      console.log(isAuthenticated);
     };
   }, []);
 
