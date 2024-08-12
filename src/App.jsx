@@ -7,14 +7,16 @@ import supabase from "./config/supabaseClient";
 import "./index.css";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // prati da li je korisnik autentifikovan.
 
   useEffect(() => {
+    // Funkcija koja će proveriti da li postoji aktivna sesija korisnika.
     const checkSession = async () => {
       const session = await supabase.auth.getSession();
       if (session?.data?.session) {
+        // Ako session.data postoji, pristupi njegovom svojstvu session
         setIsAuthenticated(true);
-        console.log("session")
+        console.log("session");
       } else {
         setIsAuthenticated(false);
       }
@@ -23,6 +25,8 @@ function App() {
     checkSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
+      // onAuthStateChange()- omogućava praćenje promena u autentifikaciji.
+      // Vrednost koja se vraća iz "onAuthStateChange" metode se dodeljuje promenljivoj "authListener".
       (event, session) => {
         if (session) {
           setIsAuthenticated(true);
