@@ -11,23 +11,21 @@ function App() {
 
   // Pomoćna funkcija za proveru isteka sesije
   const isSessionValid = (session) => {
-    const currentTime = Math.floor(Date.now() / 1000); // Trenutno vreme u sekundama
-    const expirationTime = session?.expires_at; // Vremenski pečat kada sesija ističe
+    const currentTime = Math.floor(Date.now() / 1000);
+    const expirationTime = session?.expires_at;
 
-    // Proverava da li je currentTime manji od expirationTime + 3600. Ako jeste,sesija je još uvek aktivna i važeća.
-    return expirationTime && currentTime < expirationTime + 3600;
+    // Proverava da li je currentTime manji od expirationTime, a ne expirationTime + 3600
+    return expirationTime && currentTime < expirationTime;
   };
 
   useEffect(() => {
-    console.log(isAuthenticated);
-
     // Funkcija za proveru trenutne sesije
     const checkSession = async () => {
       const { data: sessionData } = await supabase.auth.getSession(); // Dobija trenutnu sesiju iz Supabase
       if (sessionData?.session) {
-        setIsAuthenticated(isSessionValid(sessionData.session)); //Proverava da li je dobijena sesija validna na osnovu rezultata funkcije isSessionValid.
-
-        console.log(isAuthenticated);
+        const isValid = isSessionValid(sessionData.session);
+        setIsAuthenticated(isSessionValid(sessionData.session)); // Proverava da li je dobijena sesija validna na osnovu rezultata funkcije isSessionValid.
+        console.log("Da li je sesija validna? ", isValid);
       } else {
         setIsAuthenticated(false);
       }
@@ -38,14 +36,18 @@ function App() {
     // Postavlja listener za promene u stanju autentifikacije:
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        const isValid = isSessionValid(session);
         setIsAuthenticated(isSessionValid(session)); // Ažurira stanje autentifikacije na osnovu nove sesije
+        console.log(
+          "Promena stanja autentifikacije, da li je validno?",
+          isValid
+        );
       }
     );
 
     // Čisti listener prilikom demontaže komponente
     return () => {
       authListener.subscription.unsubscribe();
-      console.log(isAuthenticated);
     };
   }, []);
 

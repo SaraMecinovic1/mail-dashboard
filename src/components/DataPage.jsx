@@ -17,6 +17,7 @@ const DataPage = () => {
 
   useEffect(() => {
     toast.success(`Welcome back,Sara 💌`);
+
     const fetchEmails = async () => {
       setIsLoading(true); // Počni učitavanje
 
@@ -132,13 +133,6 @@ const DataPage = () => {
                   <td style={{ paddingLeft: "12px" }}>{item.code}</td>
                   <td>{formatDate(item.created_at)}</td>
                   <td style={{ paddingLeft: "15px" }}>
-                    {/* <EditOutlinedIcon
-                      sx={{
-                        paddingRight: "10px",
-                        fontSize: "40px",
-                        color: "#e6d38a",
-                      }}
-                    /> */}
                     <DeleteForeverOutlinedIcon
                       onClick={() => handleDelete(item.id)}
                       sx={{
