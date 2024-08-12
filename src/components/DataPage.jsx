@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import DataTitle from "../ui/DataTitle";
 import Table from "@mui/joy/Table";
-// import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useEffect, useState } from "react";
 import supabase from "../config/supabaseClient";
@@ -10,13 +10,13 @@ import { format } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const DataPage = () => {
+const DataPage = ({ onLogout }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [emails, setEmails] = useState(null);
   const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
-    toast.success(`Welcome back,Sara 💌`);
+    toast.success(`Welcome back, Sara 💌`);
 
     const fetchEmails = async () => {
       setIsLoading(true); // Počni učitavanje
@@ -63,6 +63,23 @@ const DataPage = () => {
       <DataTitle />
       <ToastContainer />
 
+      {/* Dugme za odjavljivanje */}
+      <button
+        onClick={onLogout} // Proveri da li je onLogout funkcija
+        style={{
+          alignSelf: "flex-end",
+          padding: "10px 20px",
+          fontSize: "16px",
+          color: "#fff",
+          backgroundColor: "#a360fc",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        Logout
+      </button>
+
       {fetchError && (
         <p style={{ color: "red", textAlign: "center" }}>{fetchError}</p>
       )}
@@ -87,7 +104,6 @@ const DataPage = () => {
               <th
                 className="email-column"
                 style={{
-                  // width: "330px",
                   fontSize: "18px",
                   color: "#595656",
                   paddingLeft: "20px",
@@ -157,6 +173,11 @@ const DataPage = () => {
       </div>
     </div>
   );
+};
+
+// Dodaj PropTypes za validaciju props
+DataPage.propTypes = {
+  onLogout: PropTypes.func.isRequired,
 };
 
 export default DataPage;

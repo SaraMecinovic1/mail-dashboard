@@ -1,4 +1,4 @@
-import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import LoginPage from "./components/LoginPage";
 import DataPage from "./components/DataPage";
@@ -8,6 +8,7 @@ import "./index.css";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate(); // useNavigate treba pozvati unutar komponente App, izvan useEffect-a
 
   // Pomoćna funkcija za proveru isteka sesije
   const isSessionValid = (session) => {
@@ -51,17 +52,27 @@ function App() {
     };
   }, []);
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsAuthenticated(false);
+    navigate("/login"); // Preusmerava korisnika na stranicu za prijavu
+  };
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/data"
-          element={isAuthenticated ? <DataPage /> : <Navigate to="/login" />}
-        />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route
+        path="/data"
+        element={
+          isAuthenticated ? (
+            <DataPage onLogout={handleLogout} />
+          ) : (
+            <Navigate to="/login" />
+          )
+        }
+      />
+    </Routes>
   );
 }
 
