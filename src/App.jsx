@@ -14,15 +14,18 @@ function App() {
     const currentTime = Math.floor(Date.now() / 1000); // Trenutno vreme u sekundama
     const expirationTime = session?.expires_at; // Vremenski pečat kada sesija ističe
 
-    return expirationTime && currentTime < expirationTime + 3600; // Ovo predstavlja vreme kada sesija treba da istekne ili bude nevažeća.
+    // Proverava da li je currentTime manji od expirationTime + 3600. Ako jeste,sesija je još uvek aktivna i važeća.
+    return expirationTime && currentTime < expirationTime + 3600;
   };
 
   useEffect(() => {
     console.log(isAuthenticated);
+
+    // Funkcija za proveru trenutne sesije
     const checkSession = async () => {
-      const { data: sessionData } = await supabase.auth.getSession(); // Dobij trenutnu sesiju
+      const { data: sessionData } = await supabase.auth.getSession(); // Dobija trenutnu sesiju iz Supabase
       if (sessionData?.session) {
-        setIsAuthenticated(isSessionValid(sessionData.session));
+        setIsAuthenticated(isSessionValid(sessionData.session)); //Proverava da li je dobijena sesija validna na osnovu rezultata funkcije isSessionValid.
 
         console.log(isAuthenticated);
       } else {
@@ -32,12 +35,14 @@ function App() {
 
     checkSession();
 
+    // Postavlja listener za promene u stanju autentifikacije:
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        setIsAuthenticated(isSessionValid(session));
+        setIsAuthenticated(isSessionValid(session)); // Ažurira stanje autentifikacije na osnovu nove sesije
       }
     );
 
+    // Čisti listener prilikom demontaže komponente
     return () => {
       authListener.subscription.unsubscribe();
       console.log(isAuthenticated);
