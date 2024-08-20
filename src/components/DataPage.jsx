@@ -67,7 +67,7 @@ const DataPage = ({ onLogout }) => {
         <p style={{ color: "red", textAlign: "center" }}>{fetchError}</p>
       )}
 
-      <div className="scrollable-table-container ml-[20px] mr-[20px]">
+      <div className="scrollable-table-container ml-[15px] mr-[20px]">
         <Table aria-label="table variants" sx={{ borderCollapse: "collapse" }}>
           <thead
             style={{
