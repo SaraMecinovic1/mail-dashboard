@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const DataPage = ({ onLogout }) => {
+const DataPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [emails, setEmails] = useState(null);
   const [fetchError, setFetchError] = useState(null);
