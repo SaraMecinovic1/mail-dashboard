@@ -6,15 +6,15 @@ import "../App.css";
 const DataTitle = () => {
   const navigate = useNavigate();
   return (
-    <div className="w-[100%] h-[100px] bg-[#a360fc] flex items-center justify-between">
+    <div className="bg-[#a360fc] flex items-center justify-between min-h-[80px] w-full">
       <div className="w-[50px] h-[100%] flex items-center justify-center">
         <HomeIcon
           onClick={() => navigate("/")}
-          fontSize="large" // Veličina ikone
+          fontSize="large"
           sx={{
-            color: "#fff", // Boja ikone
-            marginLeft: "20px", // Razmak između ikone i sledećeg elementa (ako postoji)
-            fontSize: "30px", // Velika veličina ikone
+            color: "#fff",
+            marginLeft: "20px",
+            fontSize: "30px",
           }}
         />
       </div>
@@ -36,5 +36,6 @@ const DataTitle = () => {
     </div>
   );
 };
+
 
 export default DataTitle;
