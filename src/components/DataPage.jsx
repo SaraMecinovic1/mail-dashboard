@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import DataTitle from "../ui/DataTitle";
 import Table from "@mui/joy/Table";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
@@ -63,28 +63,11 @@ const DataPage = ({ onLogout }) => {
       <DataTitle />
       <ToastContainer />
 
-      {/* Dugme za odjavljivanje */}
-      <button
-        onClick={onLogout} // Proveri da li je onLogout funkcija
-        style={{
-          alignSelf: "flex-end",
-          padding: "10px 20px",
-          fontSize: "16px",
-          color: "#fff",
-          backgroundColor: "#a360fc",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
-      >
-        Logout
-      </button>
-
       {fetchError && (
         <p style={{ color: "red", textAlign: "center" }}>{fetchError}</p>
       )}
 
-      <div className="scrollable-table-container">
+      <div className="scrollable-table-container ml-[20px] mr-[20px]">
         <Table aria-label="table variants" sx={{ borderCollapse: "collapse" }}>
           <thead
             style={{
