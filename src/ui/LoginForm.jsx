@@ -11,9 +11,9 @@ import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import LoginIcon from "@mui/icons-material/Login";
 import CircularProgress from "@mui/joy/CircularProgress";
-import supabase from "../config/supabaseClient";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import supabaseService from "../services/supabaseService";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,10 +38,9 @@ export const LoginForm = () => {
       return;
     }
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const error = await supabaseService.login(email, password);
+
+      console.log(" login error", error);
 
       if (error) {
         toast.error("Invalid email or password.");
