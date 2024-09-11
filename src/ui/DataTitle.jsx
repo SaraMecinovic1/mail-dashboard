@@ -1,6 +1,8 @@
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout"; // Dodaj LogoutIcon
+
 import "../App.css";
 
 const DataTitle = () => {
@@ -32,10 +34,23 @@ const DataTitle = () => {
           DATA
         </h1>
       </div>
-      <div className="w-[80px] h-[100%] flex items-center justify-end"></div>
+      <div className="w-[50px] h-[100%] flex items-center justify-center">
+        <LogoutIcon
+          onClick={() => {
+            console.log("Logout clicked");
+            // Ovde možeš dodati funkcionalnost za odjavu
+          }}
+          fontSize="large"
+          sx={{
+            color: "#fff",
+            marginRight: "20px",
+            fontSize: "30px",
+            cursor: "pointer",
+          }}
+        />
+      </div>
     </div>
   );
 };
-
 
 export default DataTitle;
