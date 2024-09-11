@@ -8,6 +8,7 @@ import "./index.css";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate(); // useNavigate treba pozvati unutar komponente App, izvan useEffect-a
 
   // Pomoćna funkcija za proveru isteka sesije
@@ -22,6 +23,7 @@ function App() {
   useEffect(() => {
     // Funkcija za proveru trenutne sesije
     const checkSession = async () => {
+      setIsLoading(true);
       const { data: sessionData } = await supabase.auth.getSession(); // Dobija trenutnu sesiju iz Supabase
       if (sessionData?.session) {
         const isValid = isSessionValid(sessionData.session);
@@ -30,6 +32,7 @@ function App() {
       } else {
         setIsAuthenticated(false);
       }
+      setIsLoading(false);
     };
 
     checkSession();
@@ -52,13 +55,16 @@ function App() {
     };
   }, []);
 
-
   // --------------OVO U SERVICES
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setIsAuthenticated(false);
     navigate("/login"); // Preusmerava korisnika na stranicu za prijavu
   };
+  
+  if (isLoading) {
+    return <div>Loading...</div>; // Ili neki drugi indikator učitavanja
+  }
 
   return (
     <Routes>
