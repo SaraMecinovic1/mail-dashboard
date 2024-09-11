@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const DataPage = () => {
+const DataPage = ({ setIsAuthenticated }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [emails, setEmails] = useState(null);
   const [fetchError, setFetchError] = useState(null);
@@ -19,35 +19,30 @@ const DataPage = () => {
     toast.success(`Welcome back, Sara 💌`);
 
     const fetchEmails = async () => {
-      setIsLoading(true); // Počni učitavanje
+      setIsLoading(true);
 
       const { data, error } = await supabase.from("emails").select();
 
       if (error) {
         setFetchError("Could not fetch the emails!");
         setEmails(null);
-        console.log("fetch error-", error);
       } else {
         setEmails(data);
         setFetchError(null);
       }
 
-      setIsLoading(false); // Završavaj učitavanje
+      setIsLoading(false);
     };
 
     fetchEmails();
   }, []);
 
   const handleDelete = async (id) => {
-    console.log("Deleting email with id:", id);
-
-    const { data, error } = await supabase.from("emails").delete().eq("id", id);
+    const { error } = await supabase.from("emails").delete().eq("id", id);
 
     if (error) {
       console.log("error from delete function:", error);
     } else {
-      console.log("delete data:", data);
-      // Osveži listu emailova nakon brisanja
       setEmails(emails.filter((email) => email.id !== id));
       toast.success(`You have successfully deleted the data 🗑️`);
     }
@@ -60,7 +55,7 @@ const DataPage = () => {
 
   return (
     <div className="container mx-auto flex flex-col h-[100vh] space-y-6">
-      <DataTitle />
+      <DataTitle setIsAuthenticated={setIsAuthenticated} />
       <ToastContainer />
 
       {fetchError && (
@@ -110,7 +105,6 @@ const DataPage = () => {
               >
                 Created At:
               </th>
-
               <th>*Edit data:</th>
             </tr>
           </thead>
@@ -158,9 +152,8 @@ const DataPage = () => {
   );
 };
 
-// Dodaj PropTypes za validaciju props
 DataPage.propTypes = {
-  onLogout: PropTypes.func.isRequired,
+  setIsAuthenticated: PropTypes.func.isRequired,
 };
 
 export default DataPage;

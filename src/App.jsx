@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import LoginPage from "./components/LoginPage";
 import DataPage from "./components/DataPage";
@@ -9,14 +9,11 @@ import "./index.css";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate(); // useNavigate treba pozvati unutar komponente App, izvan useEffect-a
 
   // Pomoćna funkcija za proveru isteka sesije
   const isSessionValid = (session) => {
     const currentTime = Math.floor(Date.now() / 1000);
     const expirationTime = session?.expires_at;
-
-    // Proverava da li je currentTime manji od expirationTime
     return expirationTime && currentTime < expirationTime;
   };
 
@@ -27,7 +24,7 @@ function App() {
       const { data: sessionData } = await supabase.auth.getSession(); // Dobija trenutnu sesiju iz Supabase
       if (sessionData?.session) {
         const isValid = isSessionValid(sessionData.session);
-        setIsAuthenticated(isSessionValid(sessionData.session)); // Proverava da li je dobijena sesija validna na osnovu rezultata funkcije isSessionValid.
+        setIsAuthenticated(isValid);
         console.log("Da li je sesija validna? ", isValid);
       } else {
         setIsAuthenticated(false);
@@ -41,7 +38,7 @@ function App() {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (event, session) => {
         const isValid = isSessionValid(session);
-        setIsAuthenticated(isSessionValid(session)); // Ažurira stanje autentifikacije na osnovu nove sesije
+        setIsAuthenticated(isValid); // Ažurira stanje autentifikacije na osnovu nove sesije
         console.log(
           "Promena stanja autentifikacije, da li je validno?",
           isValid
@@ -55,15 +52,8 @@ function App() {
     };
   }, []);
 
-  // --------------OVO U SERVICES
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setIsAuthenticated(false);
-    navigate("/login"); // Preusmerava korisnika na stranicu za prijavu
-  };
-  
   if (isLoading) {
-    return <div>Loading...</div>; // Ili neki drugi indikator učitavanja
+    return <div>Loading...</div>;
   }
 
   return (
@@ -74,7 +64,7 @@ function App() {
         path="/data"
         element={
           isAuthenticated ? (
-            <DataPage onLogout={handleLogout} />
+            <DataPage setIsAuthenticated={setIsAuthenticated} />
           ) : (
             <Navigate to="/login" />
           )

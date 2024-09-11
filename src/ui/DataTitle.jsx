@@ -1,12 +1,22 @@
+import PropTypes from "prop-types";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
-import LogoutIcon from "@mui/icons-material/Logout"; // Dodaj LogoutIcon
-
+import LogoutIcon from "@mui/icons-material/Logout";
+import services from "../services/supabaseService";
 import "../App.css";
 
-const DataTitle = () => {
+const DataTitle = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await services.logOut(setIsAuthenticated, navigate);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
     <div className="bg-[#a360fc] flex items-center justify-between min-h-[80px] w-full">
       <div className="w-[50px] h-[100%] flex items-center justify-center">
@@ -36,10 +46,7 @@ const DataTitle = () => {
       </div>
       <div className="w-[50px] h-[100%] flex items-center justify-center">
         <LogoutIcon
-          onClick={() => {
-            console.log("Logout clicked");
-            // Ovde možeš dodati funkcionalnost za odjavu
-          }}
+          onClick={handleLogout}
           fontSize="large"
           sx={{
             color: "#fff",
@@ -51,6 +58,10 @@ const DataTitle = () => {
       </div>
     </div>
   );
+};
+
+DataTitle.propTypes = {
+  setIsAuthenticated: PropTypes.func.isRequired, // Proverava da li je setIsAuthenticated funkcija i da li je obavezna
 };
 
 export default DataTitle;
