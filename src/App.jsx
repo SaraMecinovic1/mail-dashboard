@@ -15,7 +15,7 @@ function App() {
     const currentTime = Math.floor(Date.now() / 1000);
     const expirationTime = session?.expires_at;
 
-    // Proverava da li je currentTime manji od expirationTime, a ne expirationTime + 3600
+    // Proverava da li je currentTime manji od expirationTime
     return expirationTime && currentTime < expirationTime;
   };
 
@@ -52,6 +52,8 @@ function App() {
     };
   }, []);
 
+
+  // --------------OVO U SERVICES
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setIsAuthenticated(false);

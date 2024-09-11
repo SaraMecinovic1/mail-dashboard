@@ -61,6 +61,7 @@ const CardInputs = () => {
       setIsLoading(false);
       toast.error("Email already exists!");
       setEmail("");
+
       return;
     }
 
@@ -116,9 +117,7 @@ const CardInputs = () => {
               }}
             >
               Referal code:{" "}
-              <span className="font-thin text-[12px] ">
-                must have 4 digits
-              </span>
+              <span className="font-thin text-[12px] ">must have 4 digits</span>
             </FormLabel>
             <Input
               sx={{
