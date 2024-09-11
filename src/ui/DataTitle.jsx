@@ -52,7 +52,6 @@ const DataTitle = ({ setIsAuthenticated }) => {
             color: "#fff",
             marginRight: "20px",
             fontSize: "30px",
-            cursor: "pointer",
           }}
         />
       </div>
@@ -61,7 +60,7 @@ const DataTitle = ({ setIsAuthenticated }) => {
 };
 
 DataTitle.propTypes = {
-  setIsAuthenticated: PropTypes.func.isRequired, // Proverava da li je setIsAuthenticated funkcija i da li je obavezna
+  setIsAuthenticated: PropTypes.func.isRequired,
 };
 
 export default DataTitle;

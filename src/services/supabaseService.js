@@ -10,9 +10,13 @@ const login = async (email, password) => {
 };
 
 const logOut = async (setIsAuthenticated, navigate) => {
-  await supabase.auth.signOut();
-  setIsAuthenticated(false);
-  navigate("/login");
+  try {
+    await supabase.auth.signOut();
+    setIsAuthenticated(false);
+    navigate("/login");
+  } catch (error) {
+    console.error("Error logging out:", error);
+  }
 };
 
 export default {
