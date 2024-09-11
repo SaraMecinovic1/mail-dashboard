@@ -1,4 +1,5 @@
 import supabase from "../config/supabaseClient";
+import { toast } from "react-toastify";
 
 const login = async (email, password) => {
   const { error } = await supabase.auth.signInWithPassword({
@@ -27,8 +28,31 @@ const fetchData = async () => {
   return data;
 };
 
+const deleteFunction = async (id) => {
+  const { error } = await supabase.from("emails").delete().eq("id", id);
+  if (error) {
+    console.log("error from delete function:", error);
+  }
+};
+
+const sendNewData = async (email, code) => {
+  const { error } = await supabase
+    .from("emails")
+    .insert([{ email, code: parseInt(code, 10) }]);
+
+  if (error) {
+    console.log(error, "-error from await");
+    toast.error("Error submitting data!");
+    throw new Error("Error submitting data!");
+  } else {
+    toast.success(`Thanks for having you, ${email} 💌`);
+  }
+};
+
 export default {
   login: login,
   logOut: logOut,
   fetchData: fetchData,
+  deleteFunction: deleteFunction,
+  sendNewData: sendNewData,
 };

@@ -3,7 +3,6 @@ import DataTitle from "../ui/DataTitle";
 import Table from "@mui/joy/Table";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useEffect, useState } from "react";
-import supabase from "../config/supabaseClient";
 import CircularProgress from "@mui/joy/CircularProgress";
 import "../App.css";
 import { format } from "date-fns";
@@ -34,14 +33,14 @@ const DataPage = ({ setIsAuthenticated }) => {
 
     fetchEmails();
   }, []);
-  const handleDelete = async (id) => {
-    const { error } = await supabase.from("emails").delete().eq("id", id);
 
-    if (error) {
-      console.log("error from delete function:", error);
-    } else {
+  const handleDelete = async (id) => {
+    try {
+      await supabaseService.deleteFunction(id);
       setEmails(emails.filter((email) => email.id !== id));
-      toast.success(`You have successfully deleted the data 🗑️`);
+      toast.success("You have successfully deleted the data 🗑️");
+    } catch (error) {
+      toast.error("Error deleting the data!");
     }
   };
 
