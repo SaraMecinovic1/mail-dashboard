@@ -9,6 +9,7 @@ import "../App.css";
 import { format } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import supabaseService from "../services/supabaseService";
 
 const DataPage = ({ setIsAuthenticated }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,27 +17,23 @@ const DataPage = ({ setIsAuthenticated }) => {
   const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
-    toast.success(`Welcome back, Sara 💌`);
-
     const fetchEmails = async () => {
       setIsLoading(true);
 
-      const { data, error } = await supabase.from("emails").select();
-
-      if (error) {
-        setFetchError("Could not fetch the emails!");
-        setEmails(null);
-      } else {
+      try {
+        const data = await supabaseService.fetchData();
         setEmails(data);
         setFetchError(null);
+      } catch (error) {
+        setFetchError("Could not fetch the emails!");
+        setEmails([]);
+      } finally {
+        setIsLoading(false);
       }
-
-      setIsLoading(false);
     };
 
     fetchEmails();
   }, []);
-
   const handleDelete = async (id) => {
     const { error } = await supabase.from("emails").delete().eq("id", id);
 

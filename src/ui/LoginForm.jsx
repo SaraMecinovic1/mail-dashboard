@@ -28,7 +28,9 @@ export const LoginForm = () => {
     event.preventDefault();
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Sprečava podrazumevano ponašanje forme
+
     setIsLoading(true);
     if ((email === "" && password === "") || email === "" || password === "") {
       toast.error("Fill in all the fields");
@@ -48,7 +50,7 @@ export const LoginForm = () => {
         setPassword("");
       } else {
         toast.success(`Welcome back, ${email} 💌`);
-        navigate("/data"); // Redirektuj na stranicu sa podacima nakon uspešne prijave
+        navigate("/data"); 
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -64,7 +66,7 @@ export const LoginForm = () => {
       {isLoading ? (
         <CircularProgress color="neutral" variant="solid" />
       ) : (
-        <>
+        <form onSubmit={handleLogin} className="flex flex-col items-center">
           <TextField
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -78,7 +80,7 @@ export const LoginForm = () => {
               "& .MuiInputLabel-root": {
                 color: "#b0b0b0",
                 "&.Mui-focused": {
-                  color: "#a360fc", // Promena boje fokusa
+                  color: "#a360fc", 
                 },
               },
             }}
@@ -93,7 +95,7 @@ export const LoginForm = () => {
               sx={{
                 color: "#b0b0b0",
                 "&.Mui-focused": {
-                  color: "#a360fc", // Promena boje fokusa
+                  color: "#a360fc",
                 },
               }}
             >
@@ -133,7 +135,7 @@ export const LoginForm = () => {
             />
           </FormControl>
           <Button
-            onClick={handleLogin}
+            type="submit" // Obezbeđuje da dugme podnosi formu
             sx={{
               width: "160px",
               height: "45px",
@@ -153,7 +155,7 @@ export const LoginForm = () => {
             <LoginIcon sx={{ marginRight: "5px" }} fontSize="small" />
             Login
           </Button>
-        </>
+        </form>
       )}
     </div>
   );

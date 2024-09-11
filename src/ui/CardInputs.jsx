@@ -61,7 +61,6 @@ const CardInputs = () => {
       setIsLoading(false);
       toast.error("Email already exists!");
       setEmail("");
-
       return;
     }
 
@@ -88,7 +87,7 @@ const CardInputs = () => {
       {isLoading ? (
         <CircularProgress color="neutral" variant="solid" />
       ) : (
-        <div className="flex flex-col items-center">
+        <form onSubmit={handleSubmit} className="flex flex-col items-center">
           <FormControl>
             <FormLabel
               sx={{
@@ -116,7 +115,7 @@ const CardInputs = () => {
                 color: "#595656",
               }}
             >
-              Referal code:{" "}
+              Referral code:{" "}
               <span className="font-thin text-[12px] ">must have 4 digits</span>
             </FormLabel>
             <Input
@@ -143,11 +142,11 @@ const CardInputs = () => {
                 color: "white",
               },
             }}
-            onClick={handleSubmit}
+            type="submit" 
           >
             Send
           </Button>
-        </div>
+        </form>
       )}
     </div>
   );
