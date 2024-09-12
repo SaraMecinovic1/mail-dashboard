@@ -1,12 +1,12 @@
+import { useState } from "react";
 import FormControl from "@mui/joy/FormControl";
 import CircularProgress from "@mui/joy/CircularProgress";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
-import { useState } from "react";
-import supabase from "../config/supabaseClient";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import services from "../services"; // Dodaj ovaj import
 
 const CardInputs = () => {
   const [email, setEmail] = useState("");
@@ -44,36 +44,20 @@ const CardInputs = () => {
 
     setIsLoading(true);
 
-    // Proveri da li email već postoji
-    const { data: existingEmail, error: checkError } = await supabase
-      .from("emails")
-      .select()
-      .eq("email", email);
+    try {
+      // Da li vec email postoji:
+      const emailExists = await services.isEmailAlreadyExists(email);
 
-    if (checkError) {
-      setIsLoading(false);
-      toast.error("Error checking email!");
-      console.log(checkError);
-      return;
-    }
-
-    if (existingEmail.length > 0) {
-      setIsLoading(false);
-      toast.error("Email already exists!");
-      setEmail("");
-      return;
-    }
-
-    // Ako email ne postoji, nastavi sa slanjem podataka:
-    const { error } = await supabase
-      .from("emails")
-      .insert([{ email, code: parseInt(code, 10) }]);
-
-    if (error) {
-      console.log(error, "-error from await");
-      toast.error("Error submitting data!");
-    } else {
-      toast.success(`Thanks for having you, ${email} 💌 `);
+      if (emailExists) {
+        setIsLoading(false);
+        toast.error("Email already exists!");
+        setEmail("");
+        return;
+      }
+      // Ako ne postoji posalji:
+      await services.sendNewData(email, code);
+    } catch (error) {
+      toast.error(error.message);
     }
 
     setIsLoading(false);
@@ -142,7 +126,7 @@ const CardInputs = () => {
                 color: "white",
               },
             }}
-            type="submit" 
+            type="submit"
           >
             Send
           </Button>

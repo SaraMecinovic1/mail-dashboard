@@ -49,10 +49,24 @@ const sendNewData = async (email, code) => {
   }
 };
 
+const isEmailAlreadyExists = async (email) => {
+  const { data: existingEmail, error: checkError } = await supabase
+    .from("emails")
+    .select()
+    .eq("email", email);
+
+  if (checkError) {
+    throw new Error("Error checking email!");
+  }
+
+  return existingEmail.length > 0;
+};
+
 export default {
   login: login,
   logOut: logOut,
   fetchData: fetchData,
   deleteFunction: deleteFunction,
   sendNewData: sendNewData,
+  isEmailAlreadyExists: isEmailAlreadyExists,
 };
