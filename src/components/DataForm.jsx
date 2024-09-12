@@ -1,7 +1,5 @@
-
+// DataForm.jsx
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types"; // Ovdje također treba biti prisutan
-import DataTitle from "../components/DataTitle";
 import Table from "@mui/joy/Table";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import CircularProgress from "@mui/joy/CircularProgress";
@@ -10,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import supabaseService from "../services/supabaseService";
 
-const DataForm = ({ setIsAuthenticated }) => {
+const DataForm = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [emails, setEmails] = useState(null);
   const [fetchError, setFetchError] = useState(null);
@@ -51,106 +49,98 @@ const DataForm = ({ setIsAuthenticated }) => {
   };
 
   return (
-    <div className="container mx-auto flex flex-col h-[100vh] space-y-6">
-      <DataTitle setIsAuthenticated={setIsAuthenticated} />
+    <div className="scrollable-table-container ml-[15px] mr-[20px]">
       <ToastContainer />
-
       {fetchError && (
         <p style={{ color: "red", textAlign: "center" }}>{fetchError}</p>
       )}
 
-      <div className="scrollable-table-container ml-[15px] mr-[20px]">
-        <Table aria-label="table variants" sx={{ borderCollapse: "collapse" }}>
-          <thead
+      <Table aria-label="table variants" sx={{ borderCollapse: "collapse" }}>
+        <thead
+          style={{
+            position: "sticky",
+            top: 0,
+            backgroundColor: "#fff",
+            zIndex: 10,
+          }}
+        >
+          <tr
             style={{
-              position: "sticky",
-              top: 0,
-              backgroundColor: "#fff",
-              zIndex: 10,
+              height: "50px",
+              verticalAlign: "middle",
+              paddingBottom: "10px",
             }}
           >
-            <tr
+            <th
+              className="email-column"
               style={{
-                height: "50px",
-                verticalAlign: "middle",
-                paddingBottom: "10px",
+                fontSize: "18px",
+                color: "#595656",
+                paddingLeft: "20px",
               }}
             >
-              <th
-                className="email-column"
-                style={{
-                  fontSize: "18px",
-                  color: "#595656",
-                  paddingLeft: "20px",
-                }}
-              >
-                Email:
-              </th>
-              <th
-                style={{
-                  fontSize: "18px",
-                  color: "#595656",
-                }}
-              >
-                Code:
-              </th>
-              <th
-                style={{
-                  fontSize: "18px",
-                  color: "#595656",
-                }}
-              >
-                Created At:
-              </th>
-              <th>*Edit data:</th>
+              Email:
+            </th>
+            <th
+              style={{
+                fontSize: "18px",
+                color: "#595656",
+              }}
+            >
+              Code:
+            </th>
+            <th
+              style={{
+                fontSize: "18px",
+                color: "#595656",
+              }}
+            >
+              Created At:
+            </th>
+            <th>*Edit data:</th>
+          </tr>
+        </thead>
+        <tbody>
+          {isLoading ? (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                <CircularProgress
+                  color="neutral"
+                  variant="solid"
+                  sx={{ textAlign: "center" }}
+                />
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
-              <tr>
-                <td colSpan="5" style={{ textAlign: "center" }}>
-                  <CircularProgress
-                    color="neutral"
-                    variant="solid"
-                    sx={{ textAlign: "center" }}
+          ) : emails && emails.length > 0 ? (
+            emails.map((item) => (
+              <tr key={item.id}>
+                <td style={{ paddingLeft: "20px" }}>{item.email}</td>
+                <td style={{ paddingLeft: "12px" }}>{item.code}</td>
+                <td>{formatDate(item.created_at)}</td>
+                <td style={{ paddingLeft: "15px" }}>
+                  <DeleteForeverOutlinedIcon
+                    onClick={() => handleDelete(item.id)}
+                    sx={{
+                      color: "#a360fc",
+                      fontSize: "40px",
+                      cursor: "pointer",
+                      paddingLeft: "10px",
+                    }}
                   />
                 </td>
               </tr>
-            ) : emails && emails.length > 0 ? (
-              emails.map((item) => (
-                <tr key={item.id}>
-                  <td style={{ paddingLeft: "20px" }}>{item.email}</td>
-                  <td style={{ paddingLeft: "12px" }}>{item.code}</td>
-                  <td>{formatDate(item.created_at)}</td>
-                  <td style={{ paddingLeft: "15px" }}>
-                    <DeleteForeverOutlinedIcon
-                      onClick={() => handleDelete(item.id)}
-                      sx={{
-                        color: "#a360fc",
-                        fontSize: "40px",
-                        cursor: "pointer",
-                        paddingLeft: "10px",
-                      }}
-                    />
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" style={{ textAlign: "center" }}>
-                  No data available
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
-      </div>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                No data available
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
     </div>
   );
-};
-
-DataForm.propTypes = {
-  setIsAuthenticated: PropTypes.func.isRequired,
 };
 
 export default DataForm;

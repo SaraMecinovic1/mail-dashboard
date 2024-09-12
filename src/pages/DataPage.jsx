@@ -1,11 +1,11 @@
+// DataPage.jsx
+import DataPageUi from "../container/DataPageUi";
 import PropTypes from "prop-types";
-import DataForm from "../components/DataForm";
 
 const DataPage = ({ setIsAuthenticated }) => {
-  return <DataForm setIsAuthenticated={setIsAuthenticated} />;
+  return <DataPageUi setIsAuthenticated={setIsAuthenticated} />;
 };
 DataPage.propTypes = {
   setIsAuthenticated: PropTypes.func.isRequired,
 };
-
 export default DataPage;
