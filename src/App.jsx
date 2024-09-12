@@ -39,7 +39,7 @@ function App() {
 
     // Postavlja listener za promene u stanju autentifikacije:
     const { data: authListener } = supabaseService.onAuthStateChange(
-      (event, session) => {
+      (event, session) => { // ovo je callback func
         const isValid = isSessionValid(session);
         setIsAuthenticated(isValid);
         console.log(
