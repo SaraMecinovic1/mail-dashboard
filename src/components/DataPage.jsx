@@ -16,6 +16,7 @@ const DataPage = ({ setIsAuthenticated }) => {
   const [fetchError, setFetchError] = useState(null);
 
   useEffect(() => {
+    toast.success(`Welcome back, Sara 💌`);
     const fetchEmails = async () => {
       setIsLoading(true);
 

@@ -29,7 +29,7 @@ export const LoginForm = () => {
   };
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // Sprečava podrazumevano ponašanje forme
+    e.preventDefault(); // Sprecava podrazumevano ponasanje forme
 
     setIsLoading(true);
     if ((email === "" && password === "") || email === "" || password === "") {
@@ -40,17 +40,16 @@ export const LoginForm = () => {
       return;
     }
     try {
-      const error = await supabaseService.login(email, password);
+      const loginError = await supabaseService.login(email, password);
 
-      console.log(" login error", error);
-
-      if (error) {
+      if (loginError) {
+        // Ako postoji greška, prijava nije uspela
         toast.error("Invalid email or password.");
         setEmail("");
         setPassword("");
       } else {
-        toast.success(`Welcome back, ${email} 💌`);
-        navigate("/data"); 
+        // Uspešna prijava
+        navigate("/data");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -80,7 +79,7 @@ export const LoginForm = () => {
               "& .MuiInputLabel-root": {
                 color: "#b0b0b0",
                 "&.Mui-focused": {
-                  color: "#a360fc", 
+                  color: "#a360fc",
                 },
               },
             }}

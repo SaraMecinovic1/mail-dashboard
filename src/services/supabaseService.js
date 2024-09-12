@@ -6,8 +6,11 @@ const login = async (email, password) => {
     email,
     password,
   });
-
-  return error;
+  if (error) {
+    console.log("Error from login function:", error);
+    return error;
+  }
+  return null; // Vrati null ako je prijava uspešna
 };
 
 const logOut = async (setIsAuthenticated, navigate) => {

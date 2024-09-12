@@ -6,7 +6,7 @@ import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import services from "../services"; // Dodaj ovaj import
+import services from "../services/supabaseService"; // Dodaj ovaj import
 
 const CardInputs = () => {
   const [email, setEmail] = useState("");
