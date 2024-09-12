@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import DataTitle from "../ui/DataTitle";
+import DataTitle from "../components/DataTitle";
 import Table from "@mui/joy/Table";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useEffect, useState } from "react";

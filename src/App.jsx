@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import HomePage from "./components/HomePage";
-import LoginPage from "./components/LoginPage";
-import DataPage from "./components/DataPage";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import DataPage from "./pages/DataPage";
 import { useEffect, useState } from "react";
 import supabaseService from "./services/supabaseService";
 import "./index.css";

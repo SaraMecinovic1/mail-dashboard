@@ -1,5 +1,5 @@
-import { LoginForm } from "../ui/LoginForm";
-import LoginTitle from "../ui/LoginTitle";
+import { LoginForm } from "../components/LoginForm";
+import LoginTitle from "../components/LoginTitle";
 
 const LoginPage = () => {
   return (
