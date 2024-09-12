@@ -65,6 +65,17 @@ const isEmailAlreadyExists = async (email) => {
   return existingEmail.length > 0;
 };
 
+const checkSessionFunc = async () => {
+  const { data: sessionData } = await supabase.auth.getSession(); // Dobija trenutnu sesiju iz Supabase
+  return sessionData.session; // Vraća sesiju direktno
+};
+
+const onAuthStateChange = (callback) => {
+  return supabase.auth.onAuthStateChange((event, session) => {
+    callback(event, session); // kada se dogodi promena stanja, callback funkcija će se pozvati sa novim podacima o sesiji.
+  });
+};
+
 export default {
   login: login,
   logOut: logOut,
@@ -72,4 +83,6 @@ export default {
   deleteFunction: deleteFunction,
   sendNewData: sendNewData,
   isEmailAlreadyExists: isEmailAlreadyExists,
+  checkSessionFunc: checkSessionFunc,
+  onAuthStateChange: onAuthStateChange,
 };

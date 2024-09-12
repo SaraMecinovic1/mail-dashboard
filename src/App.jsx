@@ -3,7 +3,7 @@ import HomePage from "./components/HomePage";
 import LoginPage from "./components/LoginPage";
 import DataPage from "./components/DataPage";
 import { useEffect, useState } from "react";
-import supabase from "./config/supabaseClient";
+import supabaseService from "./services/supabaseService";
 import "./index.css";
 
 function App() {
@@ -21,31 +21,33 @@ function App() {
     // Funkcija za proveru trenutne sesije
     const checkSession = async () => {
       setIsLoading(true);
-      const { data: sessionData } = await supabase.auth.getSession(); // Dobija trenutnu sesiju iz Supabase
-      if (sessionData?.session) {
-        const isValid = isSessionValid(sessionData.session);
+
+      const session = await supabaseService.checkSessionFunc(); // Direktno dobija sesiju
+
+      if (session) {
+        const isValid = isSessionValid(session); // Proverava validnost sesije
         setIsAuthenticated(isValid);
         console.log("Da li je sesija validna? ", isValid);
       } else {
         setIsAuthenticated(false);
       }
+
       setIsLoading(false);
     };
 
     checkSession();
 
     // Postavlja listener za promene u stanju autentifikacije:
-    const { data: authListener } = supabase.auth.onAuthStateChange(
+    const { data: authListener } = supabaseService.onAuthStateChange(
       (event, session) => {
         const isValid = isSessionValid(session);
-        setIsAuthenticated(isValid); // Ažurira stanje autentifikacije na osnovu nove sesije
+        setIsAuthenticated(isValid);
         console.log(
           "Promena stanja autentifikacije, da li je validno?",
           isValid
         );
       }
     );
-
     // Čisti listener prilikom demontaže komponente
     return () => {
       authListener.subscription.unsubscribe();
