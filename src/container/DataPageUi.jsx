@@ -5,7 +5,7 @@ import DataForm from "../components/DataForm";
 
 const DataPageUi = ({ setIsAuthenticated }) => {
   return (
-    <div className="container mx-auto flex flex-col h-[100vh] space-y-6">
+    <div className="w-full flex flex-col h-[100vh] space-y-6">
       <DataTitle setIsAuthenticated={setIsAuthenticated} />
       <DataForm />
     </div>

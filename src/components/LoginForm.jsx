@@ -11,7 +11,7 @@ import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import LoginIcon from "@mui/icons-material/Login";
 import CircularProgress from "@mui/joy/CircularProgress";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import supabaseService from "../services/supabaseService";
 
@@ -61,7 +61,6 @@ export const LoginForm = () => {
 
   return (
     <div className="w-80 flex flex-col items-center justify-center h-[285px] border rounded-md border-slate-400 mt-8">
-      <ToastContainer />
       {isLoading ? (
         <CircularProgress color="neutral" variant="solid" />
       ) : (

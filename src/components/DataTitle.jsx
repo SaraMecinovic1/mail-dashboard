@@ -5,6 +5,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
 import services from "../services/supabaseService";
 import "../App.css";
+import { toast } from "react-toastify";
 
 const DataTitle = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const DataTitle = ({ setIsAuthenticated }) => {
   const handleLogout = async () => {
     try {
       await services.logOut(setIsAuthenticated, navigate);
+      toast.info("You have successfully logged out.");
     } catch (error) {
       console.error("Logout failed:", error);
     }

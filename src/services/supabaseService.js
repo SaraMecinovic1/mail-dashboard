@@ -34,7 +34,7 @@ const fetchData = async () => {
 const deleteFunction = async (id) => {
   const { error } = await supabase.from("emails").delete().eq("id", id);
   if (error) {
-    console.log("error from delete function:", error);
+    console.log("Error from delete function:", error);
   }
 };
 

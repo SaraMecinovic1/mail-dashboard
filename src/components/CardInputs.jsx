@@ -4,7 +4,7 @@ import CircularProgress from "@mui/joy/CircularProgress";
 import FormLabel from "@mui/joy/FormLabel";
 import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import services from "../services/supabaseService"; // Dodaj ovaj import
 
@@ -67,7 +67,6 @@ const CardInputs = () => {
 
   return (
     <div className="w-80 flex-col h-[285px] border rounded-md border-slate-400 flex items-center justify-center mt-8">
-      <ToastContainer />
       {isLoading ? (
         <CircularProgress color="neutral" variant="solid" />
       ) : (

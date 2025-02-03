@@ -4,7 +4,7 @@ import Table from "@mui/joy/Table";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import CircularProgress from "@mui/joy/CircularProgress";
 import { format } from "date-fns";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import supabaseService from "../services/supabaseService";
 
@@ -50,7 +50,6 @@ const DataForm = () => {
 
   return (
     <div className="scrollable-table-container ml-[15px] mr-[20px]">
-      <ToastContainer />
       {fetchError && (
         <p style={{ color: "red", textAlign: "center" }}>{fetchError}</p>
       )}

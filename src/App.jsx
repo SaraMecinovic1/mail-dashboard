@@ -5,6 +5,8 @@ import DataPage from "./pages/DataPage";
 import { useEffect, useState } from "react";
 import supabaseService from "./services/supabaseService";
 import "./index.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -27,7 +29,7 @@ function App() {
       if (session) {
         const isValid = isSessionValid(session); // Proverava validnost sesije
         setIsAuthenticated(isValid);
-        console.log("Da li je sesija validna? ", isValid);
+        console.log("Is the session valid? ", isValid);
       } else {
         setIsAuthenticated(false);
       }
@@ -39,7 +41,8 @@ function App() {
 
     // Postavlja listener za promene u stanju autentifikacije:
     const { data: authListener } = supabaseService.onAuthStateChange(
-      (event, session) => { // ovo je callback func
+      (event, session) => {
+        // ovo je callback func
         const isValid = isSessionValid(session);
         setIsAuthenticated(isValid);
         console.log(
@@ -55,24 +58,31 @@ function App() {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-[#a360fc]"></div>
+      </div>
+    );
   }
 
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/data"
-        element={
-          isAuthenticated ? (
-            <DataPage setIsAuthenticated={setIsAuthenticated} />
-          ) : (
-            <Navigate to="/login" />
-          )
-        }
-      />
-    </Routes>
+    <>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/data"
+          element={
+            isAuthenticated ? (
+              <DataPage setIsAuthenticated={setIsAuthenticated} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+      </Routes>
+    </>
   );
 }
 
