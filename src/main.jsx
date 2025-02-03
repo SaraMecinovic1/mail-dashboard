@@ -1,10 +1,10 @@
 
-import ReactDOM from 'react-dom/client'; // Importuj createRoot iz 'react-dom/client'
+import ReactDOM from 'react-dom/client'; 
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import './index.css'; // Ako imaš CSS fajlove
+import './index.css'; 
 
-const root = ReactDOM.createRoot(document.getElementById('root')); // Kreiraj root koristeći createRoot
+const root = ReactDOM.createRoot(document.getElementById('root')); 
 root.render(
   <BrowserRouter>
     <App />
